@@ -8,6 +8,7 @@ async function incarcaSVG() {
   document.getElementById("backmain").innerHTML = svgIntro;
 
   const curgere = document.getElementById("curgere");
+  
   const pf2 = document.getElementById("pf2");
   const micropigmentation = document.getElementById("Micropigmentation");
   const pozapus = document.getElementById("pozapus");
@@ -325,8 +326,50 @@ setTimeout(()=>{
 setTimeout(()=>{
 
 let triggered = false;
+["wheel", "click"].forEach(eventType => {
+  if (eventType === "click") {
+    document.getElementById("pf2")?.addEventListener("click", handler, { once: true });
+  } else {
+    window.addEventListener("wheel", handler, { passive: true });
+  }
+});
 
-window.addEventListener("wheel", () => {
+
+const curgere = document.getElementById("curgere");
+
+document.getElementById("pozapus")?.addEventListener("click", () => {
+  if (!triggered) {
+    handler();
+
+    const interval = setInterval(() => {
+      const target = document.querySelector(".micropigmentare_div");
+const offset = target.getBoundingClientRect().top + window.scrollY;
+
+
+      const logo_vizibil=document.getElementById("logo_header2");
+      if (target && target.offsetHeight > 0) {
+      window.scrollTo({ top: offset + 200, behavior: "auto" }); // +200px mai jos
+
+        clearInterval(interval);
+      }
+      gsap.to(logo_vizibil,{
+          opacity:1,
+          duration:0.5,
+          ease:"power2.out",
+
+      });
+       setTimeout(() => logo_vizibil.style.opacity=0, 6000);
+
+    }, 1500);
+
+
+
+    setTimeout(() => clearInterval(interval), 3000);
+  }
+}, { once: true });
+
+
+function handler(){
   if (!triggered) {
     const svg = document.getElementsByClassName("totsvg")[0];
     const logo_div = document.getElementById("logo_centrat");
@@ -464,7 +507,12 @@ if (totsvg) {
     triggered = true;
   }
   ScrollTrigger.refresh();
-}, { passive: true });
+}
+
+
+
+
+
   },4200);//DE MODIFICAT !!!!!!!!!!!!!!!!!!!!!!!!!
   
 
